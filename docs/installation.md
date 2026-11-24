@@ -51,5 +51,7 @@ claude plugin marketplace remove boynton
 ## Notes
 - A listing icon ships at `plugins/boynton-solution-discovery/.claude-plugin/icon.png` (regenerate
   with `python3 scripts/make-icon.py`).
-- Model-graded evals run separately via `.github/workflows/eval.yml` (manual/weekly; needs the
-  `ANTHROPIC_API_KEY` secret). The always-on `validate` workflow stays deterministic.
+- Model-graded evals run **manually/locally** (`claude plugin eval …`) or via the manual-only
+  `.github/workflows/eval.yml` (Actions → Run workflow; needs the `ANTHROPIC_API_KEY` secret). The
+  always-on `validate` workflow stays deterministic.
+- New here? Start with the [User Guide](USER_GUIDE.md).

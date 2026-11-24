@@ -50,14 +50,24 @@ A living `00-discovery-state.md` persists progress across sessions.
 
 ## Install & use
 
-See [`docs/installation.md`](docs/installation.md) and [`docs/getting-started.md`](docs/getting-started.md).
-Quick isolated test (nothing persisted to `~/.claude`):
+**📘 Full walkthrough: [docs/USER_GUIDE.md](docs/USER_GUIDE.md)** (install → activate → run a
+discovery → outputs → manage). See also [installation.md](docs/installation.md) and
+[getting-started.md](docs/getting-started.md).
+
+Install into your Claude Code profile from the public marketplace:
+
+```bash
+claude plugin marketplace add oross13/boynton-solution-discovery
+claude plugin install boynton-solution-discovery@boynton --scope user
+```
+
+Or try it without installing (nothing persisted to `~/.claude`):
 
 ```bash
 claude --plugin-dir ./plugins/boynton-solution-discovery
 ```
 
-Then invoke the skill (`solution-discovery`) and describe your problem in your own words.
+Then invoke the skill — `/solution-discovery` — and describe your problem in your own words.
 
 ## Validate
 

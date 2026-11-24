@@ -6,6 +6,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- `docs/USER_GUIDE.md` — end-to-end user instructions (install, activate, run a discovery, outputs,
+  manage, troubleshoot), linked from the README and installation docs.
+
+### Changed
+- `eval` CI workflow is now **manual-only** (`workflow_dispatch`); the weekly schedule was removed.
+  Model-graded evals are run manually or locally; the deterministic `validate` workflow remains the
+  always-on gate.
+
 ## [0.1.0] — 2026-11-24
 
 Initial release of the Boynton Solution Discovery companion plugin.

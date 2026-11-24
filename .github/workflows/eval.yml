@@ -1,15 +1,14 @@
 name: eval
 
 # Model-graded plugin evals. Separate from the always-on deterministic `validate` workflow because
-# these call the model (they cost money and are mildly non-deterministic). Runs on demand and weekly,
-# and does NOT gate pull requests.
+# these call the model (they cost money and are mildly non-deterministic).
 #
-# Requires repository secret ANTHROPIC_API_KEY. Without it the job is skipped, not failed.
+# MANUAL only: run it from the Actions tab (workflow_dispatch), or run the evals locally with
+# `claude plugin eval` (see docs/USER_GUIDE.md). It does NOT run on a schedule and does NOT gate PRs.
+# Requires repository secret ANTHROPIC_API_KEY; without it the job is skipped, not failed.
 
 on:
   workflow_dispatch:
-  schedule:
-    - cron: "0 6 * * 1" # Mondays 06:00 UTC
 
 jobs:
   plugin-eval:
