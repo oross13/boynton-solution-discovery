@@ -41,7 +41,7 @@ Under the target project's `project/` directory:
 - `project/discovery/06-framework-kickoff-prompt.md`
 - `project/governance/approval-records.md` (Solution Confirmation gate recorded by a human)
 
-All artifacts carry the governed frontmatter (`document, project, version, status, created, approved_by, approved_at`).
+All artifacts carry the governed frontmatter (`document, project, version, status, created, approved_by, approved_at`); the exact block and the kickoff copy-markers are in `references/requirements-guidance.md` and `references/kickoff-prompt-standard.md`. Reproduce them from those references — the repo's `templates/` directory holds full fill-in copies for working in this repo but does **not** ship inside the installed plugin, so never depend on reading a template file at runtime.
 
 ## Done when
 - The real problem is understood and separated from any proposed solution.

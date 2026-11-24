@@ -49,5 +49,7 @@ claude plugin marketplace remove boynton
 > without explicit approval (release Gate 4).
 
 ## Notes
-- A plugin icon is optional; none ships yet. `claude plugin validate` will emit an advisory icon
-  warning — it does not fail validation.
+- A listing icon ships at `plugins/boynton-solution-discovery/.claude-plugin/icon.png` (regenerate
+  with `python3 scripts/make-icon.py`).
+- Model-graded evals run separately via `.github/workflows/eval.yml` (manual/weekly; needs the
+  `ANTHROPIC_API_KEY` secret). The always-on `validate` workflow stays deterministic.

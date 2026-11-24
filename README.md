@@ -65,7 +65,11 @@ Then invoke the skill (`solution-discovery`) and describe your problem in your o
 python3 scripts/structural-check.py      # manifests + frontmatter (no CLI needed)
 python3 evals/hooks/test_hooks.py        # advisory-hook contract
 scripts/validate-repository.sh           # claude plugin validate (plugin + marketplace)
+claude plugin eval ./plugins/boynton-solution-discovery --trust-plugin --allow-tools Write  # model-graded suite
 ```
+
+Deterministic checks run in CI (`.github/workflows/validate.yml`); the model-graded eval runs
+separately (`eval.yml`, manual/weekly, needs the `ANTHROPIC_API_KEY` secret).
 
 ## Layout
 

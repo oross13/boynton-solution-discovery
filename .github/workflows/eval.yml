@@ -1,0 +1,46 @@
+name: eval
+
+# Model-graded plugin evals. Separate from the always-on deterministic `validate` workflow because
+# these call the model (they cost money and are mildly non-deterministic). Runs on demand and weekly,
+# and does NOT gate pull requests.
+#
+# Requires repository secret ANTHROPIC_API_KEY. Without it the job is skipped, not failed.
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 6 * * 1" # Mondays 06:00 UTC
+
+jobs:
+  plugin-eval:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Install Claude Code
+        run: npm install -g @anthropic-ai/claude-code
+      - name: Run plugin eval suite
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          if [ -z "${ANTHROPIC_API_KEY:-}" ]; then
+            echo "ANTHROPIC_API_KEY not set — skipping model-graded evals."
+            exit 0
+          fi
+          # Single-arm regression run (no baseline) to control cost; raise --runs for stability.
+          claude plugin eval ./plugins/boynton-solution-discovery \
+            --ablation none \
+            --runs 1 \
+            --allow-tools Write \
+            --trust-plugin \
+            --no-publish \
+            --threshold 0.8
+      - name: Upload eval results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: eval-results
+          path: plugins/boynton-solution-discovery/evals/results/
+          if-no-files-found: ignore

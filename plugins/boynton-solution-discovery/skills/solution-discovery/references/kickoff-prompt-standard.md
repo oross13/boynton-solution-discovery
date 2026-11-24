@@ -6,6 +6,37 @@ Boynton / AIBADF engineering framework.
 
 **Generate it only after adequate discovery and explicit human confirmation of the solution.**
 
+## Required file shape (reproduce exactly — do not rely on an external template file)
+Every deliverable — including `06` — begins with the governed frontmatter block. Fill the values;
+keep `approved_by` and `approved_at` as `null` (only a human sets them):
+
+```markdown
+---
+document: framework-kickoff-prompt
+project: <project-slug>
+version: 0.1.0
+status: Draft
+created: <YYYY-MM-DD>
+approved_by: null
+approved_at: null
+---
+```
+
+After a short title/preamble, the copyable prompt is delimited by these exact marker lines so the
+user knows what to paste into the new framework session:
+
+```
+---8<--- COPY EVERYTHING BELOW THIS LINE INTO THE NEW FRAMEWORK SESSION ---8<---
+
+<the standalone prompt>
+
+---8<--- END OF COPYABLE PROMPT ---8<---
+```
+
+(The `templates/` directory holds the full fill-in versions for working directly in this repo, but
+you must be able to produce a correct deliverable from this reference alone, since the templates do
+not ship inside the installed plugin.)
+
 ## Non-negotiables
 - **Standalone:** a new session must understand the project without the original discovery
   conversation. Do not omit important context to shorten it.

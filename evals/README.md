@@ -31,24 +31,36 @@ plugins/boynton-solution-discovery/evals/<case>/
   graders/skill-fired.md  # type: tool_used, tool: Skill — plugin-fired indicator (with-only)
 ```
 
-Current cases: `non-software-recommendation`, `simplicity-local`, `problem-vs-solution`,
-`no-invented-data`, `confirmation-gate`.
+Cases come in two kinds:
+
+**Single-turn behavior cases** — `non-software-recommendation`, `simplicity-local`,
+`problem-vs-solution`, `no-invented-data`, `confirmation-gate`. These score 1.00 in the plugin arm
+with Δ 0.00 vs. baseline — the base model already satisfies them, so they act as *non-regression +
+skill-fires* checks.
+
+**Multi-turn uplift cases** — `uplift-governed-kickoff` and `uplift-fact-assumption-separation`. The
+agent reads the skill's references and **writes deliverable files**, which are then graded. These show
+measurable lift over the no-plugin baseline (plugin arm passes; bare-model baseline fails), because a
+bare model does not reproduce the governed frontmatter, the kickoff copy-markers, the
+"framework runs its own gates" instruction, or strict fact/assumption separation. They need
+`--allow-tools Write`.
 
 Run them:
 ```bash
-claude plugin eval ./plugins/boynton-solution-discovery --trust-plugin           # full suite, with/without ablation
-claude plugin eval ./plugins/boynton-solution-discovery --case simplicity-local --runs 1 --no-publish --trust-plugin
+# Full suite with with/without ablation (shows Δ); uplift cases need Write:
+claude plugin eval ./plugins/boynton-solution-discovery --trust-plugin --allow-tools Write
+# One case, single run, no baseline:
+claude plugin eval ./plugins/boynton-solution-discovery --case simplicity-local --runs 1 --ablation none --no-publish --trust-plugin
 ```
 
-Run outputs go to `plugins/boynton-solution-discovery/evals/results/` (gitignored).
+Run outputs go to `plugins/boynton-solution-discovery/evals/results/` (gitignored). CI runs these
+weekly / on demand via `.github/workflows/eval.yml` (needs the `ANTHROPIC_API_KEY` secret).
 
-> **Known limitation (refinement direction).** The current runnable cases score Δ 0.00 vs. the
-> no-plugin baseline: the base model already satisfies these criteria, so they function as
-> *non-regression + skill-fires* checks rather than *uplift* demonstrations. Cases that would show
-> the plugin's lift target harder behaviors — generating the full governed six-deliverable set with
-> correct frontmatter, fact-vs-assumption separation in the state model, and a standalone kickoff
-> prompt that instructs the framework to run its own gates. These need scaffolded multi-turn cases
-> and are a planned addition.
+> **Grader note.** Deterministic `regex` grading with `target: files` did not read the agent-written
+> files in testing (content was present on disk but the grader matched nothing), so the uplift cases
+> use the verified grader types: `file_exists` (deterministic existence) + `llm` (content, judge
+> model) + `tool_used` (skill-fired indicator, with-only under ablation). Regex-over-created-files
+> grading is deferred pending confirmation of its exact schema.
 
 > A model-graded pass indicates the behavior was observed in a sample — it does **not** prove
 > perfect reasoning. Treat Layer 2 as evidence, not proof.

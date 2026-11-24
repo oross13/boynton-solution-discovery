@@ -2,6 +2,27 @@
 
 How to capture requirements for deliverable `02` and feed them into the kickoff prompt.
 
+## Governed frontmatter (every deliverable starts with this)
+Reproduce this block at the top of every deliverable and governance ledger — do not depend on an
+external template file, since `templates/` does not ship inside the installed plugin. Set `document`
+to the artifact's slug (e.g. `requirements-specification`, `solution-discovery-brief`,
+`assumptions-risks-decisions`, `solution-architecture-direction`, `implementation-roadmap`,
+`framework-kickoff-prompt`, `discovery-state`, `approval-records`). `status` is one of
+`Draft | Under Review | Approved | Superseded`. Keep `approved_by`/`approved_at` as `null` — only a
+human sets them.
+
+```markdown
+---
+document: <artifact-slug>
+project: <project-slug>
+version: 0.1.0
+status: Draft
+created: <YYYY-MM-DD>
+approved_by: null
+approved_at: null
+---
+```
+
 ## Identifiers and traceability
 - Functional requirements: `FR-001`, `FR-002`, …
 - Non-functional requirements: `NFR-001`, `NFR-002`, …

@@ -7,10 +7,12 @@
 - Run `scripts/validate-repository.sh`. It lists what the plugin provides — look for
   `skills: boynton-solution-discovery:solution-discovery` and the agent.
 
-## `claude plugin validate` reports a missing README or icon
-- **README:** a root `README.md` counts for a plugin in a sub-folder; this repo ships one.
-- **Icon:** optional. The icon warning does not fail validation. Add
-  `.claude-plugin/icon.png` (square, 512–2048 px) before release if a listing icon is wanted.
+## `claude plugin validate` reports a missing README
+- A root `README.md` counts for a plugin in a sub-folder; this repo ships one. The validator still
+  prints an informational note that the README was taken from the repo root — that is expected and
+  not a failure.
+- **Icon:** ships at `.claude-plugin/icon.png` (1024×1024). Regenerate with
+  `python3 scripts/make-icon.py` if you change the design.
 
 ## `structural-check.py` reports a version mismatch
 - The plugin `version` in `plugins/boynton-solution-discovery/.claude-plugin/plugin.json` must equal
