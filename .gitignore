@@ -8,3 +8,7 @@ __pycache__/
 # Editors
 .idea/
 .vscode/
+
+# plugin eval run outputs
+evals/results/
+plugins/*/evals/results/

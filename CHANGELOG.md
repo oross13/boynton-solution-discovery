@@ -6,6 +6,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- Runnable `claude plugin eval` cases under `plugins/boynton-solution-discovery/evals/`
+  (`non-software-recommendation`, `simplicity-local`, `problem-vs-solution`, `no-invented-data`,
+  `confirmation-gate`), each with an `llm` criteria grader and a `tool_used` skill-fired indicator.
+- `experimental.evals: "evals"` wiring in `plugin.json` so the suite is discoverable.
+- `.gitignore` entries for eval `results/` output.
+
+### Verified
+- `claude plugin eval` runs the suite: 5/5 cases score 1.00 in the plugin arm; the `solution-discovery`
+  skill fires in every plugin arm.
+
+### Notes
+- Runnable cases currently score Δ 0.00 vs. the no-plugin baseline — they are non-regression +
+  skill-fires checks, not uplift demonstrations. Uplift cases (full governed deliverable set,
+  fact/assumption separation, kickoff-prompt standard) require scaffolded multi-turn cases and are
+  planned. Phase 4 isolated-install round-trip (project scope) was validated and fully torn down.
+
 ## [0.1.0] — Initial scaffold (Phase 2)
 
 ### Added

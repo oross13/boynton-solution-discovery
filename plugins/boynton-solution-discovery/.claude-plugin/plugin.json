@@ -6,5 +6,8 @@
     "name": "Boynton Maintainers"
   },
   "license": "MIT",
-  "keywords": ["discovery", "solution-design", "requirements", "kickoff-prompt", "adaptive-questioning", "business-analysis", "companion"]
+  "keywords": ["discovery", "solution-design", "requirements", "kickoff-prompt", "adaptive-questioning", "business-analysis", "companion"],
+  "experimental": {
+    "evals": "evals"
+  }
 }
