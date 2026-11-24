@@ -1,0 +1,15 @@
+{
+  "name": "boynton",
+  "owner": {
+    "name": "Boynton Maintainers"
+  },
+  "description": "Boynton marketplace — adaptive solution-discovery companion for the Boynton / AIBADF engineering framework.",
+  "plugins": [
+    {
+      "name": "boynton-solution-discovery",
+      "source": "./plugins/boynton-solution-discovery",
+      "description": "Adaptive AI discovery consultant: turns a business problem into a reasoned solution definition and a standalone framework kickoff prompt.",
+      "version": "0.1.0"
+    }
+  ]
+}

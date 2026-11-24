@@ -1,0 +1,33 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3",
+            "args": ["-I", "${CLAUDE_PLUGIN_ROOT}/scripts/protect_approved_artifacts.py"]
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3",
+            "args": ["-I", "${CLAUDE_PLUGIN_ROOT}/scripts/validate_artifact_frontmatter.py"]
+          },
+          {
+            "type": "command",
+            "command": "python3",
+            "args": ["-I", "${CLAUDE_PLUGIN_ROOT}/scripts/validate_approval_record.py"]
+          }
+        ]
+      }
+    ]
+  }
+}
