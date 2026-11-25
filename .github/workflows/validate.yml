@@ -18,3 +18,5 @@ jobs:
         run: python3 scripts/structural-check.py
       - name: Advisory-hook contract tests
         run: python3 evals/hooks/test_hooks.py
+      - name: Handoff validator tests
+        run: python3 -I plugins/boynton-solution-discovery/scripts/test_validate_handoff.py
