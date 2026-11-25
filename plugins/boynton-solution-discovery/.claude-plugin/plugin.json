@@ -1,7 +1,7 @@
 {
   "name": "boynton-solution-discovery",
   "version": "0.1.0",
-  "description": "Adaptive solution-discovery consultant that produces a reasoned solution definition and a standalone kickoff prompt for the Boynton / AIBADF engineering framework.",
+  "description": "Adaptive solution-discovery consultant that produces a reasoned solution definition and a standalone kickoff prompt for the Boynton Solution Engineering Framework (BSEF).",
   "author": {
     "name": "Boynton Maintainers"
   },

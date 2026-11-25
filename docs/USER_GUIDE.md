@@ -14,7 +14,7 @@
 You describe a problem, opportunity, or idea in plain language; it runs a conversation — one
 meaningful question at a time, not a questionnaire — challenges assumptions, explores alternatives,
 and produces a reasoned solution definition plus a **standalone kickoff prompt** you paste into a new
-session to start building with the Boynton / AIBADF engineering framework.
+session to start building with the Boynton Solution Engineering Framework (BSEF).
 
 **Use it at the very start**, before you commit to building anything — especially when the problem is
 still fuzzy or you've jumped to a solution that hasn't been pressure-tested.
@@ -127,8 +127,8 @@ All artifacts are written under your project's `project/` directory and carry go
 ### Using the kickoff prompt (`06`)
 Open `06-framework-kickoff-prompt.md`. Copy everything between the
 `---8<--- COPY EVERYTHING BELOW … ---8<---` markers and paste it into a **new** Claude Code session
-running the Boynton / AIBADF engineering framework. It is standalone — the new session needs nothing
-from your discovery conversation — and it instructs the framework to run its **own** discovery and
+running the Boynton Solution Engineering Framework (BSEF). It is standalone — the new session needs
+nothing from your discovery conversation — and it instructs BSEF to run its **own** discovery and
 approval gates.
 
 ---

@@ -3,7 +3,7 @@
   "owner": {
     "name": "Boynton Maintainers"
   },
-  "description": "Boynton marketplace — adaptive solution-discovery companion for the Boynton / AIBADF engineering framework.",
+  "description": "Boynton marketplace — adaptive solution-discovery companion for the Boynton Solution Engineering Framework (BSEF).",
   "plugins": [
     {
       "name": "boynton-solution-discovery",
