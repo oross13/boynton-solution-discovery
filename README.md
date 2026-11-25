@@ -3,15 +3,16 @@
 **Boynton Solution Discovery** — an adaptive AI discovery consultant, packaged as a Claude Code
 plugin. It turns an initial business problem, operational challenge, automation opportunity,
 application idea, or integration requirement into a well-reasoned solution definition and a
-comprehensive, **standalone kickoff prompt** that starts a new project in the Boynton / AIBADF
-engineering framework.
+comprehensive, **standalone kickoff prompt** — conforming to the Boynton Discovery-to-Engineering
+Handoff Standard v1.0 — that starts a new project in the Boynton Solution Engineering Framework
+(BSEF).
 
-It is a **companion** to the engineering framework (`claude-code-engineering-environment`, plugin
-`business-app-framework`), not a replacement. It is independent, additive, and does not modify the
-framework, the application starters, or any existing project.
+It is a **companion** to BSEF (`claude-code-engineering-environment`, plugin `bsef`), not a
+replacement. It is independent, additive, and does not modify the framework, the application
+starters, or any existing project.
 
-> Boynton Solution Discovery *prepares* a project. It does **not** bypass the engineering
-> framework's own discovery and approval gates.
+> Boynton Solution Discovery *prepares* a project. It does **not** bypass BSEF's own discovery and
+> approval gates.
 
 ## What it does
 
