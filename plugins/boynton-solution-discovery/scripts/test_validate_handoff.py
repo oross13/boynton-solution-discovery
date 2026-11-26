@@ -3,7 +3,9 @@
 
 Stdlib-only (unittest). Writes temporary fixtures; modifies no repo files.
 """
+import hashlib
 import os
+import re
 import sys
 import tempfile
 import unittest
@@ -168,6 +170,50 @@ class HandoffValidatorTests(unittest.TestCase):
 # outcomes are a clean pass here BY DESIGN — documented per fixture in `note`. We do NOT change
 # Discovery's validator/schema/version policy to force parity.
 GOLDEN_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "fixtures", "handoff")
+MANIFEST = os.path.join(GOLDEN_DIR, "fixtures.sha256")
+
+# Documentation that lives beside the fixtures but is NOT a handoff fixture:
+NON_FIXTURE_MD = {"CONFORMANCE.md"}
+_SHA256_RE = re.compile(r"^[0-9a-f]{64}$")
+
+
+def _fixture_names(dirpath):
+    """Handoff-fixture *.md files only (excludes CONFORMANCE.md and any non-fixture docs)."""
+    return {f for f in os.listdir(dirpath)
+            if f.endswith(".md") and f not in NON_FIXTURE_MD}
+
+
+def _sha256(path):
+    h = hashlib.sha256()
+    with open(path, "rb") as fh:
+        for chunk in iter(lambda: fh.read(65536), b""):
+            h.update(chunk)
+    return h.hexdigest()
+
+
+def _read_manifest(path):
+    """Parse '<sha256>  <name>' lines.
+
+    Ignores blank lines and '#' comments. Raises ValueError on a malformed line, a digest that is not a
+    lowercase 64-hex SHA-256, or a duplicate filename. Returns {name: digest}.
+    """
+    pinned = {}
+    with open(path, encoding="utf-8") as fh:
+        for lineno, raw in enumerate(fh, 1):
+            line = raw.strip()
+            if not line or line.startswith("#"):
+                continue
+            parts = line.split(None, 1)
+            if len(parts) != 2:
+                raise ValueError(f"{path}:{lineno}: malformed manifest line: {raw!r}")
+            digest, name = parts[0].strip(), parts[1].strip()
+            if not _SHA256_RE.match(digest):
+                raise ValueError(f"{path}:{lineno}: invalid SHA-256 {digest!r}")
+            if name in pinned:
+                raise ValueError(f"{path}:{lineno}: duplicate manifest entry {name!r}")
+            pinned[name] = digest
+    return pinned
+
 
 GOLDEN_EXPECT = {
     # Valid / clean in both repos
@@ -190,6 +236,12 @@ GOLDEN_EXPECT = {
     # Consumer-gated by BSEF only; Discovery (the producer) has no version-support gate (intentional)
     "invalid-unsupported-version.md":       {"errors": False, "note": "consumer-gated: BSEF rejects unsupported MAJOR; Discovery has no version-support gate"},
     "invalid-min-version-too-high.md":      {"errors": False, "note": "consumer-gated: BSEF rejects min>installed; Discovery has no min-version comparison"},
+    # --- v1.1 enrichment fixtures (producer is errors-only; body sections are not validated here) ---
+    "valid-enriched-full.md":               {"errors": False, "note": "v1.1 full enrichment; approved branding"},
+    "valid-enriched-partial.md":            {"errors": False, "note": "v1.1 partial; BSEF warns O1/O2, producer errors-only"},
+    "valid-v11-no-enrichment.md":           {"errors": False, "note": "bare v1.1; declares 1.1, no enrichment"},
+    "valid-enriched-hint-no-body.md":       {"errors": False, "note": "hint set, body absent -> intake gap, not a structural error"},
+    "valid-enriched-contradictory.md":      {"errors": False, "note": "semantic contradiction -> human review at intake, not structural"},
 }
 
 
@@ -197,7 +249,7 @@ class GoldenFixtureTests(unittest.TestCase):
     """Run the shared BSEF golden fixtures through Discovery's errors-only validator."""
 
     def test_manifest_covers_every_fixture(self):
-        on_disk = {f for f in os.listdir(GOLDEN_DIR) if f.endswith(".md")}
+        on_disk = _fixture_names(GOLDEN_DIR)
         self.assertEqual(
             on_disk, set(GOLDEN_EXPECT),
             msg="GOLDEN_EXPECT and fixtures/handoff/*.md are out of sync",
@@ -216,6 +268,26 @@ class GoldenFixtureTests(unittest.TestCase):
                         any(needle in e for e in errors),
                         msg=f"{name}: expected error containing {needle!r}; got {errors}",
                     )
+
+
+class ManifestIntegrityTests(unittest.TestCase):
+    """CANONICAL manifest integrity: fixtures.sha256 must match Discovery's own fixtures.
+
+    Discovery owns the contract, so this manifest is the source of truth BSEF vendors. Offline,
+    stdlib-only. Detects duplicate/invalid-format (via _read_manifest), missing, unexpected, and mismatch.
+    """
+
+    def test_manifest_matches_fixture_inventory(self):
+        pinned = _read_manifest(MANIFEST)          # raises on duplicate / invalid SHA-256
+        fixtures = _fixture_names(GOLDEN_DIR)
+        self.assertEqual(sorted(set(pinned) - fixtures), [], "manifest lists fixtures with no file")
+        self.assertEqual(sorted(fixtures - set(pinned)), [], "fixture files missing from manifest")
+
+    def test_each_fixture_matches_its_manifest_hash(self):
+        for name, digest in _read_manifest(MANIFEST).items():
+            with self.subTest(fixture=name):
+                self.assertEqual(_sha256(os.path.join(GOLDEN_DIR, name)), digest,
+                                 msg=f"{name}: fixture bytes do not match fixtures.sha256")
 
 
 if __name__ == "__main__":

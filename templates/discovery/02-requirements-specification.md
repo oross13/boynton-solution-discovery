@@ -14,6 +14,15 @@ approved_at: null
 > forward to acceptance criteria. Do not invent requirements to fill the document. Mark any
 > requirement that rests on an unvalidated assumption and cross-reference it in document 03.
 
+## 0. Glossary (minimal)
+> Capture only domain terms needed to understand the requirements and business rules below. Business
+> meanings only. Distinguish three things: a business/domain rule (a policy about the domain → §5), a
+> product/functional requirement (something the system must do → §1), and a technical/engineering
+> constraint (an implementation limit → belongs in 04-solution-architecture-direction, not here).
+| Term | Definition | Source |
+|---|---|---|
+| | | |
+
 ## 1. Functional requirements
 | ID | Requirement | Priority (M/S/C/W) | Acceptance criteria | Assumption? (03 ref) |
 |---|---|---|---|---|
@@ -36,9 +45,9 @@ approved_at: null
 1.
 
 ## 5. Business rules
-| ID | Rule | Compliant example | Non-compliant example | System behavior |
-|---|---|---|---|---|
-| BR-001 | | | | |
+| ID | Rule | Compliant example | Non-compliant example | System behavior | Source |
+|---|---|---|---|---|---|
+| BR-001 | | | | | |
 
 ## 6. Data requirements
 | Entity | Key attributes | Owner | Sensitivity | Retention |

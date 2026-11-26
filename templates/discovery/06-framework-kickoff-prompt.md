@@ -9,7 +9,7 @@ approved_at: null
 
 # Handoff Standard identity + compatibility
 handoff_standard: boynton-discovery-to-engineering
-handoff_standard_version: "1.0"
+handoff_standard_version: "1.1"
 target_framework: bsef@bsef
 target_framework_min_version: "1.0.0"
 
@@ -32,6 +32,13 @@ completeness:
   required_complete: true
   conditional_present: []        # e.g. [current_state, integrations, migration]
   open_questions_count: 0
+  # OPTIONAL (v1.1). Keep a flag true ONLY while its section (below) is present. If you do not use a
+  # section, DELETE that whole section below AND delete its flag here (or set it false). This example
+  # shows all three present; a minimal handoff deletes this map and all three sections.
+  enriched:
+    prioritized_assumptions: true
+    glossary_business_rules: true
+    evidence_sources: true
 
 # Branding decision (proportionate; not a separate manifest)
 branding:
@@ -132,6 +139,35 @@ and may revise this.>
 - **Risks:**
 - **Dependencies:**
 - **Deferred decisions:**
+
+> Enrichment rule (v1.1): each optional section below pairs with a completeness.enriched flag. If you keep
+> a section, its flag must be true. If you do not use a section, DELETE the whole section AND remove its
+> flag (or set it false). Never leave a flag true without its section, or a section without its flag true.
+
+## Prioritized assumptions (optional; keep completeness.enriched.prioritized_assumptions: true while present)
+> High-impact, low-confidence assumptions first. Test first? uses P0/P1/P2 (P0 = validate before
+> substantial engineering investment). Not every assumption must be resolved before BSEF intake. Never
+> invent evidence, confidence, or ownership.
+| ID | Assumption | Why it matters | Evidence / confidence | Risk if wrong | Test first? | Validation method | Owner |
+|---|---|---|---|---|---|---|---|
+| A-001 | <assumption> | <why> | <reported/inferred> | <risk> | P0/P1/P2/- | <method> | <owner> |
+
+## Glossary & business rules (optional; keep completeness.enriched.glossary_business_rules: true while present)
+**Glossary** (business/domain meanings only - technical decisions belong in 04)
+| Term | Definition | Source |
+|---|---|---|
+| <term> | <definition> | <ref or blank> |
+
+**Business rules** (business-level; not acceptance criteria/architecture)
+| ID | Rule | Compliant example | Non-compliant example | Source |
+|---|---|---|---|---|
+| BR-001 | <rule> | <compliant> | <non-compliant> | <ref or blank> |
+
+## Evidence & sources (optional; keep completeness.enriched.evidence_sources: true while present)
+> Status is one of: confirmed | reported | inferred | unverified. Never mark an assumption confirmed here.
+| Supports | Source type | Reference | Date | Status |
+|---|---|---|---|---|
+| <FR/scope/A-id> | interview/document/data/decision | <ref> | <date or blank> | reported |
 
 ## Deliverables and approval gates
 - **Expected deliverables:**
