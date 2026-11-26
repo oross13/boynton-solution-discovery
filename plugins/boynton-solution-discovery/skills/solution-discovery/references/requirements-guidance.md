@@ -41,6 +41,12 @@ approved_at: null
 Mark any requirement that rests on an unvalidated assumption, and cross-reference it in
 `03-assumptions-risks-decisions.md`.
 
+## Glossary (minimal)
+- Create a glossary when the domain has terms a fresh engineering session could misread, or when a term
+  drives a business rule. Keep it to those terms — not a dictionary.
+- Each term: a business definition and, when known, a source. Record it in `02 §0`.
+- Business meanings only. Keep technical/implementation decisions in `04`, not the glossary.
+
 ## Functional coverage to consider (only what applies)
 Features, user activities, workflows, business rules, notifications, reporting, integrations,
 administrative capabilities, data lifecycle (create/read/update/delete/retain/archive).
@@ -55,6 +61,13 @@ does not need an enterprise NFR set.
 - **Workflows:** the main paths plus error and no-permission paths.
 - **Business rules:** state each rule and, where useful, a compliant and a non-compliant example and
   the system's expected behavior (this aligns with the engineering framework's rule style).
+  Record a source/decision reference when known.
+
+## Carrying into the handoff (v1.1, optional)
+- Important glossary terms and business rules feed the optional **"Glossary & business rules"** section
+  of `06`; P0/P1 test-first assumptions (from `03 §2`) feed **"Prioritized assumptions"**; sourced claims
+  feed **"Evidence & sources"**. Each section pairs with its `completeness.enriched` flag (true while
+  present). Optional and additive — include what discovery produced; never invent entries to fill them.
 
 ## Data and integrations
 - **Data:** entities, ownership, sensitivity/privacy classification, retention, and (for

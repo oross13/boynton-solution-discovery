@@ -1,4 +1,4 @@
-# Kickoff Prompt Standard — Boynton Discovery-to-Engineering Handoff v1.0
+# Kickoff Prompt Standard — Boynton Discovery-to-Engineering Handoff v1.1
 
 Deliverable `06-framework-kickoff-prompt.md` is the most important output and the single
 **handoff** across the boundary. It is a complete, standalone prompt the user copies into a **new**
@@ -27,7 +27,7 @@ approved_at: null
 
 # Handoff Standard identity + compatibility
 handoff_standard: boynton-discovery-to-engineering
-handoff_standard_version: "1.0"
+handoff_standard_version: "1.1"
 target_framework: bsef@bsef
 target_framework_min_version: "1.0.0"
 
@@ -50,6 +50,11 @@ completeness:
   required_complete: true
   conditional_present: []        # e.g. [current_state, integrations, migration]
   open_questions_count: 0
+  # OPTIONAL (v1.1): include a flag ONLY while its body section is present (this minimal example has none).
+  enriched:
+    prioritized_assumptions: false   # true only when the "Prioritized assumptions" body section is present
+    glossary_business_rules: false   # true only when the "Glossary & business rules" body section is present
+    evidence_sources: false          # true only when the "Evidence & sources" body section is present
 
 # Branding decision (proportionate; not a separate manifest)
 branding:
@@ -86,11 +91,13 @@ you must be able to produce a correct deliverable from this reference alone, sin
 not ship inside the installed plugin.)
 
 ## Version policy
-- `handoff_standard_version` is `MAJOR.MINOR` (this baseline is `"1.0"`), independent of the
-  document's own `version`.
+- `handoff_standard_version` is `MAJOR.MINOR` (current standard is `"1.1"`; `"1.0"` remains valid),
+  independent of the document's own `version`.
 - A **MAJOR** change breaks required fields/structure; BSEF rejects an unsupported MAJOR.
 - A **MINOR** change is additive/optional; BSEF accepts it and ignores unknown additive fields.
 - `target_framework_min_version` states the oldest BSEF expected, without pinning an exact version.
+- **v1.1 is additive and backward-compatible:** a BSEF consumer that supports v1.1 continues to accept
+  existing v1.0 handoffs without modification. A document that declares `1.0` stays a v1.0 document.
 
 ## Non-negotiables
 - **Standalone:** a new session must understand the project without the original discovery
@@ -155,6 +162,28 @@ The prompt must explicitly instruct BSEF to:
 11. Assumptions, unknowns, risks, dependencies, deferred decisions.
 12. Deliverables, approval gates, and the explicit "run your own discovery/governance" instruction.
 13. Implementation, testing/traceability, and documentation expectations.
+
+## Optional enrichment sections (v1.1, additive)
+After section 11 (Assumptions…) the producer MAY add any of three OPTIONAL Markdown body sections. They
+carry richer business context for BSEF intake WITHOUT making Discovery an engineering spec. The data lives
+in the **body** (the parsers support no list-of-maps); the only frontmatter addition is the optional
+`completeness.enriched` scalar-flag map. **Flag/section pairing:** a flag is `true` iff its section is
+present. Keep a section ⇒ its flag is `true`; drop a section ⇒ remove the flag (or set false). A minimal
+handoff omits both. Never leave a flag `true` without its section (an intake gap), or a section without
+its flag `true`. These sections are advisory; the structural validator does NOT parse them.
+
+- **A. Prioritized assumptions** — columns (exact): ID, Assumption, Why it matters, Evidence / confidence,
+  Risk if wrong, Test first?, Validation method, Owner. When present, ID and Test first? are required per
+  row; the rest optional. Never invent confidence/evidence/ownership. Use P0/P1/P2 for Test first?
+  (P0 = validate before substantial engineering investment). Do NOT imply every assumption must be resolved.
+- **B. Glossary & business rules** — a Glossary table (Term, Definition, Source) and a Business rules
+  table (ID, Rule, Compliant example, Non-compliant example, Source). Business/domain level only.
+- **C. Evidence & sources** — columns (exact): Supports, Source type, Reference, Date, Status, where Status
+  is one of confirmed, reported, inferred, unverified. Never label an assumption confirmed just because it
+  appears here; never fabricate a source/date/status.
+
+Fill `completeness.enriched.<flag>: true` for each section present. Examples are in
+`templates/discovery/06-framework-kickoff-prompt.md`.
 
 ## Self-check before presenting
 - Could a fresh session build the right thing from this alone?
